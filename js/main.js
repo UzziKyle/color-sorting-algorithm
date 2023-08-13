@@ -17,26 +17,31 @@ class Color {
     }
 }
 
+function showTrueColors(colors) {
+    let trueColors = []
+    colors.forEach(color => {
+        trueColors.push(color.color)
+    })
+
+    return trueColors
+}
+
 function insertionSort(colors) {
-    for (i = 0; i < colors.length; i++) {
-        let key_item = colors[i]
+    colorsCopy = Array.from(colors) // To keep the integrity of the original
+    for (i = 0; i < colorsCopy.length; i++) {
+        let key_item = colorsCopy[i]
         
         let j = i - 1
 
-        while (j >= 0 && colors[j].value > key_item.value) {
-            colors[j + 1] = colors[j]
+        while (j >= 0 && colorsCopy[j].value > key_item.value) {
+            colorsCopy[j + 1] = colorsCopy[j]
             j--
         }
 
-        colors[j+1] = key_item
+        colorsCopy[j+1] = key_item
     }
 
-    let sorted = []
-    colors.forEach(color => {
-        sorted.push(color.color)
-    });
-
-    return sorted
+    return colorsCopy
 }
 
 const red = new Color('red')
@@ -44,13 +49,11 @@ const white = new Color('white')
 const blue = new Color('blue')
 const green = new Color('green')
 
-let unsortedColorsRaw = [blue, blue, green, blue, white, red, white, red]
+const unsortedColorsRaw = [blue, blue, green, blue, white, red, white, red]
+const unsortedColors = showTrueColors(unsortedColorsRaw)
 
-let unsortedColors = []
-unsortedColorsRaw.forEach(color => {
-    unsortedColors.push(color.color)
-})
+const sortedColorsRaw = insertionSort(unsortedColorsRaw)
+const sortedColors = showTrueColors(sortedColorsRaw)
 
-let sortedColors = insertionSort(unsortedColorsRaw)
 console.log(`Unsorted => ${unsortedColors}\n`)
 console.log(`Sorted => ${sortedColors}`)

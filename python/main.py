@@ -42,7 +42,7 @@ blue = Color('blue')
 green = Color('green')
 
 colors = [blue, blue, green, blue, white, red, white, red]
-print(colors)
+print(f'Unsorted => {colors}\n')
 
 output = sortColors(colors)
-print(output)
+print(f'Sorted => {output}')

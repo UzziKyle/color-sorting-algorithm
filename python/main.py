@@ -39,9 +39,9 @@ red = Color('red')
 white = Color('white')
 blue = Color('blue')
 green = Color('green')
-
 colors = [blue, blue, green, blue, white, red, white, red]
-print(f'Unsorted => {colors}\n')
 
-output = sortColors(colors)
-print(f'Sorted => {output}')
+if __name__ == '__main__':
+    output = sortColors(colors)
+    print(f'Unsorted => {colors}\n')
+    print(f'Sorted => {output}')

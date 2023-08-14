@@ -43,15 +43,16 @@ def sort_colors(colors=list) -> list: # insertion-sort algorithm
 def rand_colors_generator(num=10) -> list:
     colors = [Color('red'), Color('white'), Color('blue'), Color('green')] 
     
-    randomColors = []
+    random_colors = []
     for i in range(0, num):
-        randomColors.append(colors[randint(0, len(colors)-1)])
+        random_colors.append(colors[randint(0, len(colors)-1)])
 
-    return randomColors
+    return random_colors
 
 
 if __name__ == '__main__':
-    colors = rand_colors_generator(int(input('Enter number of colors: ').strip()))
-    output = sort_colors(colors)
-    print(f'Unsorted => {colors}\n')
-    print(f'Sorted => {output}')
+    unsorted_colors = rand_colors_generator(int(input('Enter number of colors: ').strip()))
+    sorted_colors = sort_colors(unsorted_colors)
+
+    print(f'Unsorted => {unsorted_colors}\n')
+    print(f'Sorted => {sorted_colors}')

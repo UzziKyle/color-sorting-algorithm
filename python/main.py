@@ -1,4 +1,7 @@
 # Thank you, Jian!
+from random import randint
+
+
 class Color:
     def __init__(self, color) -> None:
         self.color = {
@@ -20,28 +23,35 @@ class Color:
     
     def __repr__(self) -> str:
         return self.color
+    
 
-def sortColors(colors=list) -> list: # insertion-sort algorithm
-    for i in range(1, len(colors)):
-        key_item = colors[i]
+def sort_colors(colors=list) -> list: # insertion-sort algorithm
+    colors_copy = colors.copy()
+    for i in range(1, len(colors_copy)):
+        key_item = colors_copy[i]
 
         j = i - 1
 
-        while j >= 0 and colors[j].value > key_item.value:
-            colors[j + 1] = colors[j]
+        while j >= 0 and colors_copy[j].value > key_item.value:
+            colors_copy[j + 1] = colors_copy[j]
             j -= 1
 
-        colors[j+1] = key_item
+        colors_copy[j+1] = key_item
 
-    return [color for color in colors]
+    return [color for color in colors_copy]
 
-red = Color('red')
-white = Color('white')
-blue = Color('blue')
-green = Color('green')
-colors = [blue, blue, green, blue, white, red, white, red]
+def rand_colors_generator(num=10) -> list:
+    colors = [Color('red'), Color('white'), Color('blue'), Color('green')] 
+    
+    randomColors = []
+    for i in range(0, num):
+        randomColors.append(colors[randint(0, len(colors)-1)])
+
+    return randomColors
+
 
 if __name__ == '__main__':
-    output = sortColors(colors)
+    colors = rand_colors_generator(int(input('Enter number of colors: ').strip()))
+    output = sort_colors(colors)
     print(f'Unsorted => {colors}\n')
     print(f'Sorted => {output}')

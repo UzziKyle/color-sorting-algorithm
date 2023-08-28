@@ -107,7 +107,6 @@ const readline = require('readline').createInterface({
     output: process.stdout
 })
 
-
 readline.question('Enter number of colors: ', length => {
     let colors = new ColorsArray(num=length)
     let emojiOnlyUnsorted = showTrueColors(colors.colors)

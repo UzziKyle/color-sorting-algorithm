@@ -1,13 +1,13 @@
 // Install Node.js to run on the terminal
 class Color {
     constructor(color) {
-        this.color = {
+        this.name = color
+        this.visual = {
             'red': '❤️ ', 
             'white': '⚪ ',
             'blue': '🔷 ',
             'green': '🍀 ',
         }[color]
-
         this.value = {
             'red': 0, 
             'white': 1,
@@ -17,43 +17,104 @@ class Color {
     }
 }
 
-function showTrueColors(colors) {
+
+class ColorsArray {
+    constructor(length) {
+        this.length = length
+        this.colors = randomColorsGenerator(num=this.length)
+    }
+
+    sort() {
+        let colorsCopy = Array.from(this.colors)
+
+        let sortedColors = []
+        let num = 0
+        while (sortedColors.length != this.length) {
+            let groupedColors = []
+            colorsCopy.forEach(color => {
+                if (color.value == num) {
+                    groupedColors.push(color)
+                }
+            })
+            sortedColors.push(...groupedColors)
+            num++
+        }
+
+        return sortedColors
+    }
+}
+
+
+function showTrueColors(colorsArray) {
     let trueColors = []
-    colors.forEach(color => {
-        trueColors.push(color.color)
+    colorsArray.forEach(color => {
+        trueColors.push(color.visual)
     })
 
     return trueColors
 }
 
-function insertionSort(colors) {
-    colorsCopy = Array.from(colors) // To keep the integrity of the original
-    for (i = 0; i < colorsCopy.length; i++) {
-        let key_item = colorsCopy[i]
-        
-        let j = i - 1
 
-        while (j >= 0 && colorsCopy[j].value > key_item.value) {
-            colorsCopy[j + 1] = colorsCopy[j]
-            j--
+function randomColorsGenerator(num, min = 2) {
+    let colors = [new Color('red'), new Color('white'), new Color('blue'), new Color('green')] 
+
+    if (num <= colors.length) {
+        if (num < min) {
+            num = min
         }
 
-        colorsCopy[j+1] = key_item
+        shuffleArray(colors)
+
+        randomColors = []
+        for (let i = 0; i < num; i++) {
+            randomColors.push(colors[i])
+        }
+
+        return randomColors
     }
 
-    return colorsCopy
+    randomColors = []
+    colors.forEach(color => {
+        randomColors.push(color)
+    })
+
+    let remainingSlots = num - randomColors.length
+    for (let i=0; i < remainingSlots; i++) {
+        let randomIndex = Math.floor(Math.random() * (colors.length-1))
+        let newColor = colors[randomIndex]
+        randomColors.push(newColor)
+    }
+
+    shuffleArray(randomColors)
+
+    return randomColors
 }
 
-const red = new Color('red')
-const white = new Color('white')
-const blue = new Color('blue')
-const green = new Color('green')
 
-const unsortedColorsRaw = [blue, blue, green, blue, white, red, white, red]
-const unsortedColors = showTrueColors(unsortedColorsRaw)
+// src code -> https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
+const shuffleArray = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
 
-const sortedColorsRaw = insertionSort(unsortedColorsRaw)
-const sortedColors = showTrueColors(sortedColorsRaw)
 
-console.log(`Unsorted => ${unsortedColors}\n`)
-console.log(`Sorted => ${sortedColors}`)
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+
+readline.question('Enter number of colors: ', length => {
+    let colors = new ColorsArray(num=length)
+    let emojiOnlyUnsorted = showTrueColors(colors.colors)
+    let emojiOnlysorted = showTrueColors(colors.sort())
+
+    console.log(`Unsorted => ${emojiOnlyUnsorted}\n`)
+    console.log(`Sorted => ${emojiOnlysorted}`)
+
+    readline.close()
+})

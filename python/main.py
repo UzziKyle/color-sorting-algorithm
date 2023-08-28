@@ -1,58 +1,88 @@
-# Thank you, Jian!
-from random import randint
+from random import randint, shuffle
+from os import system as sys
 
 
-class Color:
-    def __init__(self, color) -> None:
-        self.color = {
+class Color: # Thanks, Jian!
+    def __init__(self, color: str) -> None:
+        self.name = color
+        self.visual = {
             'red': '❤️ ', 
             'white': '⚪ ',
             'blue': '🔷 ',
             'green': '🍀 ',
         }[color]
 
-        self.value = {
-            'red': 0, 
-            'white': 1,
-            'blue': 2,
-            'green': 3,
-        }[color]
-
     def __str__(self) -> str:
-        return self.color
-    
+        return self.name
+
     def __repr__(self) -> str:
-        return self.color
+        return self.visual
     
 
-def sort_colors(colors=list) -> list: # insertion-sort algorithm
-    colors_copy = colors.copy()
-    for i in range(1, len(colors_copy)):
-        key_item = colors_copy[i]
+class ColorsArray:
+    def __init__(self, length: int) -> None:
+        self.length = min_max(length=length)
+        self.colors = rand_colors_generator(num=self.length)
 
-        j = i - 1
+    def sort(self) -> list:
+            colors_copy = self.colors.copy()
 
-        while j >= 0 and colors_copy[j].value > key_item.value:
-            colors_copy[j + 1] = colors_copy[j]
-            j -= 1
+            sorting = list(map(
+                str.strip, 
+                input('Enter the order of colors(separated by commas): ').split(',')
+                ))
 
-        colors_copy[j+1] = key_item
+            sorted_colors = []
+            for color_to_match in sorting:
+                grouped_colors = [color for color in colors_copy if color_to_match == color.name] 
 
-    return [color for color in colors_copy]
+                sorted_colors.extend(grouped_colors)
 
-def rand_colors_generator(num=10) -> list:
+            return sorted_colors
+
+
+def min_max(length: int, min: int = 2, max: int = 10) -> int:
+    if length < min:
+        length = min
+
+        return length
+    
+    elif length > max:
+        length = max
+
+        return length
+    
+    else:
+        return length
+    
+
+def rand_colors_generator(num: int, min: int = 2) -> list:
     colors = [Color('red'), Color('white'), Color('blue'), Color('green')] 
-    
-    random_colors = []
-    for i in range(0, num):
-        random_colors.append(colors[randint(0, len(colors)-1)])
+
+    if num <= len(colors):
+        if num < min: 
+            num = min
+        
+        shuffle(colors)
+        random_colors = [color for color in colors[:num]]
+
+        return random_colors
+
+    random_colors = [color for color in colors]
+    random_colors.extend([colors[randint(0, len(colors)-1)] for i in range(0, num-len(colors))])
+
+    shuffle(random_colors)
 
     return random_colors
 
 
-if __name__ == '__main__':
-    unsorted_colors = rand_colors_generator(int(input('Enter number of colors: ').strip()))
-    sorted_colors = sort_colors(unsorted_colors)
+def main() -> None:
+    colors = ColorsArray(length=int(input('Enter number of colors: ').strip()))
 
-    print(f'Unsorted => {unsorted_colors}\n')
-    print(f'Sorted => {sorted_colors}')
+    print(f'Unsorted => {colors.colors}\n')
+    print(f'Sorted => {colors.sort()}')
+
+
+if __name__ == '__main__':
+    sys('cls')
+    main()

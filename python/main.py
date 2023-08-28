@@ -44,16 +44,11 @@ class ColorsArray:
 def min_max(length: int, min: int = 2, max: int = 10) -> int:
     if length < min:
         length = min
-
-        return length
     
     elif length > max:
         length = max
 
-        return length
-    
-    else:
-        return length
+    return length
     
 
 def rand_colors_generator(num: int, min: int = 2) -> list:

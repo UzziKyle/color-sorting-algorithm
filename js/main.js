@@ -4,15 +4,15 @@ class Color {
         this.name = color
         this.visual = {
             'red': '❤️ ', 
-            'white': '⚪ ',
-            'blue': '🔷 ',
-            'green': '🍀 ',
+            'white': '⚪ ', 
+            'blue': '🔷 ', 
+            'green': '🍀 '
         }[color]
         this.value = {
             'red': 0, 
-            'white': 1,
-            'blue': 2,
-            'green': 3,
+            'white': 1, 
+            'blue': 2, 
+            'green': 3
         }[color]
     }
 }
@@ -25,19 +25,16 @@ class ColorsArray {
     }
 
     sort() {
-        let colorsCopy = Array.from(this.colors)
-
         let sortedColors = []
-        let num = 0
-        while (sortedColors.length != this.length) {
+
+        for (num = 0; sortedColors.length != this.length; num++) {
             let groupedColors = []
-            colorsCopy.forEach(color => {
+            this.colors.forEach(color => {
                 if (color.value == num) {
                     groupedColors.push(color)
                 }
             })
             sortedColors.push(...groupedColors)
-            num++
         }
 
         return sortedColors
@@ -107,7 +104,7 @@ const readline = require('readline').createInterface({
     output: process.stdout
 })
 
-readline.question('Enter number of colors: ', length => {
+readline.question('*Enter number of colors: ', length => {
     let colors = new ColorsArray(num=length)
     let emojiOnlyUnsorted = showTrueColors(colors.colors)
     let emojiOnlysorted = showTrueColors(colors.sort())
